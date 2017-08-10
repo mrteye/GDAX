@@ -1,5 +1,12 @@
 API for GDAX, A service provided by coinbase. (An Unofficial API)
 
+
+Quick Use Sections:
+* [Installation](#Installation)
+* [Usage Examples](#Usage Examples)
+* [Api Summary](#Api Summary)
+
+
 The API methods in the Api class start at "getAccounts". Each method has
 basic usage information along with a reference link to the GDAX Api
 documentaiton on the internet.
