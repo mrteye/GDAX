@@ -36,7 +36,7 @@ $gdax = new Gdax('https://api-public.sandbox.gdax.com');
 
 // Example usage of public calls.
 $products = $gdax->getProducts();
-$productOrderBook = $gdax->getProductOrderBook('BTC-USD', $param = [
+$productOrderBook = $gdax->getProductOrderBook('BTC-USD', $param);
     'level' => 1
 ]);
 $productTrades = $gdax->getProductTrades($productId, $param = [
@@ -155,20 +155,20 @@ public function getAccount($accountId)
 ```
 
 ###### Get account activity. https://docs.gdax.com/#get-account-history
-This API is paginated.
 ```
-public function getAccountHistory($accountId, $param = [
+This API is paginated.
+public function getAccountHistory($accountId, $param)
 ```
 
 ###### Get order holds. https://docs.gdax.com/#get-holds
-This API is paginated.
 ```
-public function getAccountHolds($accountId, $param = [
+This API is paginated.
+public function getAccountHolds($accountId, $param)
 ```
 
 ###### Place a new order. https://docs.gdax.com/#place-a-new-order
 ```
-public function createOrder($param = [
+public function createOrder($param)
 ```
 
 ###### Cancel an order. https://docs.gdax.com/#cancel-an-order
@@ -178,13 +178,13 @@ public function cancelOrder($orderId)
 
 ###### Cancel all orders. https://docs.gdax.com/#cancel-all
 ```
-public function cancelAllOrders($param = [
+public function cancelAllOrders($param)
 ```
 
 ###### Get open and unsettled orders. https://docs.gdax.com/#list-orders
-This API is paginated.
 ```
-public function getOrders($param = [
+This API is paginated.
+public function getOrders($param)
 ```
 
 ###### Get a GDAX order. https://docs.gdax.com/#get-an-order
@@ -193,25 +193,25 @@ public function getOrder($orderId)
 ```
 
 ###### Get a list of fills. https://docs.gdax.com/#list-fills
-This API is paginated.
 ```
-public function getFills($param = [
+This API is paginated.
+public function getFills($param)
 ```
 
 ###### Get fundings. https://docs.gdax.com/#funding
-This API is paginated.
 ```
-public function getFundings($param = [
+This API is paginated.
+public function getFundings($param)
 ```
 
 ###### Repay a funding record. https://docs.gdax.com/#repay
 ```
-public function repay($param = [
+public function repay($param)
 ```
 
 ###### Transfer funds between a profile and a margin profile. https://docs.gdax.com/#margin-transfer
 ```
-public function marginTransfer($param = [
+public function marginTransfer($param)
 ```
 
 ###### Get an overview of your profile. https://docs.gdax.com/#position
@@ -221,32 +221,32 @@ public function getPosition()
 
 ###### Close Position TODO: Identify this API. https://docs.gdax.com/#close
 ```
-public function closePosition($param = [
+public function closePosition($param)
 ```
 
 ###### Deposit funds from a payment method. https://docs.gdax.com/#payment-method
 ```
-public function deposit($param = [
+public function deposit($param)
 ```
 
 ###### Deposit funds from a coinbase account. https://docs.gdax.com/#coinbase
 ```
-public function depositCoinbase($param = [
+public function depositCoinbase($param)
 ```
 
 ###### Widthdraw funds to a payment method. https://docs.gdax.com/#payment-method53
 ```
-public function withdraw($param = [
+public function withdraw($param)
 ```
 
 ###### Withdraw funds to a coinbase account. https://docs.gdax.com/#coinbase54
 ```
-public function withdrawCoinbase($param = [
+public function withdrawCoinbase($param)
 ```
 
 ###### Withdraw funds to a crypto address. https://docs.gdax.com/#crypto
 ```
-public function withdrawCrypto($param = [
+public function withdrawCrypto($param)
 ```
 
 ###### Get a list of your payment methods. https://docs.gdax.com/#payment-methods
@@ -261,7 +261,7 @@ public function getCoinbaseAccounts()
 
 ###### Create a report. https://docs.gdax.com/#create-a-new-report
 ```
-public function createReport($param = [
+public function createReport($param)
 ```
 
 ###### Get report status. https://docs.gdax.com/#get-report-status
@@ -281,24 +281,24 @@ public function getProducts()
 
 ###### Get product order book. https://docs.gdax.com/#get-product-order-book.
 ```
-public function getProductOrderBook($productId, $param = [
+public function getProductOrderBook($productId, $param)
 ```
 
 ###### Get product ticker. https://docs.gdax.com/#get-product-ticker
-This API is paginated.
 ```
+This API is paginated.
 public function getProductTicker($productId)
 ```
 
 ###### Get the trades for a specific product. https://docs.gdax.com/#get-trades
-This API is paginated.
 ```
-public function getProductTrades($productId, $param = [
+This API is paginated.
+public function getProductTrades($productId, $param)
 ```
 
 ###### Get historic rates for a product. Max 200 data points. https://docs.gdax.com/#get-historic-rates
 ```
-public function getProductHistoricRates($productId, $param = [
+public function getProductHistoricRates($productId, $param)
 ```
 
 ###### Get 24 hour statistics for a prdoduct. https://docs.gdax.com/#get-24hr-stats
