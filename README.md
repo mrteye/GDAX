@@ -143,6 +143,9 @@ $errors = $gdax->getError();
 ```
 
 ## API Summary
+All $param properties are associate arrays with either API parameters
+or pagination parameters or both.  The parameters for each method are documented 
+in the Api class file, the ApiInterface file, and on the internet at the provided url.
 
 ###### Get accounts. https://docs.gdax.com/#list-accounts
 ```
