@@ -1,4 +1,4 @@
-API for GDAX A service provided by coinbase. (Unofficial)
+API for GDAX, A service provided by coinbase. (An Unofficial API)
 
 The API methods in the Api class start at "getAccounts". Each method has
 basic usage information along with a reference link to the GDAX Api
