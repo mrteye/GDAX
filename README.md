@@ -21,9 +21,10 @@ MIT - MIT License
 File: [LICENSE](LICENSE)
 
 ### Installation
-##### Composer
-composer require somephp/appconfig
-
+###### Composer
+```
+composer require mrteye/gdax
+```
 
 ## Usage Examples
 The following three examples show how to use the mrteye\GDAX api. From basic to
