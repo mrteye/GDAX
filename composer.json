@@ -10,7 +10,7 @@
     ],
     "require": {
         "php": ">=5.4",
-        "curl\curl": ">=7.1"
+        "curl/curl": ">=7.1"
     },
 		"autoload": {
 			"classmap": ["src"]
