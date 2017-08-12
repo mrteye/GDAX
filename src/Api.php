@@ -194,7 +194,7 @@ class Api implements ApiInterface{
    * @return object[] Orders on hold. 
    */
   public function createOrder($model) {
-    return $this->_privateRequest("POST", "orders", $model->extract);
+    return $this->_privateRequest("POST", "orders", $model->extract());
   }
 
 
