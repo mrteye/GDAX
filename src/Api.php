@@ -188,60 +188,13 @@ class Api implements ApiInterface{
    * 
    * @api
    *
-   * @param string[]  $param An associative Array with the following options:
-   *  client_oid:     [optional] UUID for client reference only
-   *  type:           [optional] limit, market, stop; default is limit
-   *  side:           buy or sell
-   *  product_id:     Valid Product ID
-   *  stp:            [optional]  self-trade prevention flag
-   *
-   *      Limit Order Parameters
-   *  price:          Price per bitcoin
-   *  size:           Amount of Bitcoin to buy or sell
-   *  time_in_force:  [optional] GTC, GTT, IOC, FOK; default is GTC
-   *  cancel_after:   [optional] min, hour, day
-   *  post_only:      [optional] post only flag
-   *
-   *      Market Order Parameters
-   *  size:           [optional] desired amount in BTC
-   *  funds:          [optional] desired amount of quote curreny to use
-   *
-   *      Stop Order Parameters
-   *  price:          desired price at which the stop order triggers
-   *  size:           [optional] desired amount in BTC
-   *  funds:          [optional] desirec amount of quote currency to use
-   *
-   *      Margin Parameters
-   *  overdraft_enabled: overdraft flag
-   *  funding_amount: amount of funding to be provided for the order
+   * @param LimitOrderModel|StopOrderModel|MarginOrderModel|MarketOrderModel
+   *    $param An order-model object for the type of order you want to create.
    *
    * @return object[] Orders on hold. 
    */
-  public function createOrder($param = [
-      // Common Order Parameters
-      'client_oid' => '',
-      'type' => '',
-      'side' => '',
-      'product_id' => '',
-      'stp' => '',
-      // Limit Order Parameters 
-      'price' => '',
-      'size' => '',
-      'time_in_force' => '',
-      'cancel_after' => '',
-      'post_only' => '',
-      // Markert Order Parameters 
-      'size' => '',
-      'funcds' => '',
-      // Stop Order Parameters 
-      'price' => '',
-      'size' => '',
-      'funds' => '',
-      // Margin Parameters 
-      'overdraft_enabled' => '',
-      'funding_amount' => ''
-  ]) {
-    return $this->_privateRequest("POST", "orders", $param);
+  public function createOrder($model) {
+    return $this->_privateRequest("POST", "orders", $model->extract);
   }
 
 

@@ -19,30 +19,7 @@ interface ApiInterface {
       'after' => 1000,
       'limit' => 100
   ]);
-  public function createOrder($param = [
-      /* 1: Common Order Parameters */
-      'client_oid' => 'c8600929-dc03-4a70-8334-dab22313a8f6',
-      'type' => 'limit',
-      'side' => 'buy',
-      'product_id' => 'BTC-USD',
-      'stp' => '',
-      /* 2a: Limit Order Parameters */
-      'price' => '.01',
-      'size' => '.01',
-      'time_in_force' => '',
-      'cancel_after' => '',
-      'post_only' => '',
-      /* 2b: Markert Order Parameters */
-      'size' => '',
-      'funcds' => '',
-      /* 2c: Stop Order Parameters */
-      'price' => '',
-      'size' => '',
-      'funds' => '',
-      /* 2d: Margin Parameters */
-      'overdraft_enabled' => '',
-      'funding_amount' => ''
-  ]);
+  public function createOrder($model);
   public function cancelOrder($orderId);
   public function cancelAllOrders($param = [
       'product_id' => 'BTC-USD'
