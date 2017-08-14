@@ -14,5 +14,9 @@
     },
 		"autoload": {
 			"classmap": ["src"]
-		}
+		},
+    "require-dev": {
+        "phpdocumentor/phpdocumentor": "dev-master",
+        "somephp/jsonresponse": "dev-master"
+    }
 }
