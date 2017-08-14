@@ -1,5 +1,6 @@
 <?php
-class MarginOrderModel extends CommonOrderModel  {
+namespace mrteye\Gdax;
+class MarginOrderModel extends CommonOrderItf {
   /**
    *      Margin Parameters
    *  overdraft_enabled: overdraft flag

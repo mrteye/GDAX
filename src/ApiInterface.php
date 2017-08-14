@@ -19,7 +19,7 @@ interface ApiInterface {
       'after' => 1000,
       'limit' => 100
   ]);
-  public function createOrder($model);
+  public function createOrder(CommonOrderItf $model);
   public function cancelOrder($orderId);
   public function cancelAllOrders($param = [
       'product_id' => 'BTC-USD'

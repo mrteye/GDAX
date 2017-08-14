@@ -1,5 +1,6 @@
 <?php
-class StopOrderModel extends CommonOrderModel {
+namespace mrteye\Gdax;
+class StopOrderModel extends CommonOrderItf {
   /**
    *      Stop Order Parameters
    *  price:          desired price at which the stop order triggers

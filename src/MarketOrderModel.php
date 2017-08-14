@@ -1,5 +1,6 @@
 <?php
-class MarketOrderModel extends CommonOrderModel {
+namespace mrteye\Gdax;
+class MarketOrderModel extends CommonOrderItf {
   public $size;
   public $funds;
 }

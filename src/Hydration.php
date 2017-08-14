@@ -1,4 +1,6 @@
 <?php
+namespace mrteye\Gdax;
+
 class Hydration {
   function __construct(array $properties) {
     foreach($properties as $prop => $value) {

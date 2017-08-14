@@ -1,7 +1,6 @@
 <?php
 namespace mrteye\Gdax;
 use Curl\Curl;
-
 /**
 *
 *
@@ -30,8 +29,11 @@ class Api implements ApiInterface{
   /***                        ***/
   /*** Debug & Error Logging  ***/
   /***                        ***/
-  protected function _setDebug($val) {
+  public function _setDebug($val) {
     $this->_debug = $val;
+  }
+  public function _getError() {
+    return (empty($this->_error)? false: $this->_error);
   }
   private function _dump($path, $param) {
       return (object) [
@@ -193,7 +195,11 @@ class Api implements ApiInterface{
    *
    * @return object[] Orders on hold. 
    */
+<<<<<<< HEAD
+  public function createOrder(CommonOrderItf $model) {
+=======
   public function createOrder($model) {
+>>>>>>> 79bb9d2eeb13473cec6da1d0bfe6656895b398fa
     return $this->_privateRequest("POST", "orders", $model->extract());
   }
 

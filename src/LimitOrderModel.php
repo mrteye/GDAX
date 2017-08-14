@@ -1,9 +1,8 @@
 <?php
-
-class LimitOrderModel extends CommonOrderModel {
+namespace mrteye\Gdax;
+class LimitOrderModel extends CommonOrderItf {
   /**
    *      Limit Order Parameters
-   *  price:          Price per bitcoin
    *  size:           Amount of Bitcoin to buy or sell
    *  time_in_force:  [optional] GTC, GTT, IOC, FOK; default is GTC
    *  cancel_after:   [optional] min, hour, day
