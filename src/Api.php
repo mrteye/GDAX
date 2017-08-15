@@ -1,15 +1,50 @@
 <?php
+/**
+ *  primary API class file
+ */
 namespace mrteye\Gdax;
 use Curl\Curl;
-/**
-*
-*
-*/
 
+/**
+ *  A GDAX API class.
+ */
 class Api implements ApiInterface{
+  /**
+   * error storage
+   * @var mixed[]
+   */
   protected $_error = [];
+
+  /**
+   * debug flag; set true for additional error information
+   * @var mixed[]
+   */
   protected $_debug = false;
 
+  /**
+   * Curl/Curl object - https://packagist.org/packages/curl/curl
+   * @var Curl
+   */
+  public $curl;
+
+  /**
+   * mrteye/GDAX/Auth object 
+   * @var Auth
+   */
+  public $auth;
+
+  /**
+   * the API url for GDAX
+   * @var string
+   */
+  public $api;
+
+  /**
+   * API Cosntructor
+   *
+   * @param string $api [required]; the API url for GDAX
+   * @param Auth   $auth mrteye/GDAX/Auth object
+   */
   function __construct($api, $auth = false) {
     if (! $api) {
       throw new Exception(__METHOD__ ." Missing API URL");
@@ -20,21 +55,30 @@ class Api implements ApiInterface{
     $this->api = $api;
   }
 
-  /** The first 5 methods are support methods and the
-   * remaining method calls are the GDAX API calls.
-   * They can be used directly in a script or extended
-   * in a custom class.
+  /**
+   * Set the debug flag for additional information
+   *
+   * @param bool $val true/false
    */
-
-  /***                        ***/
-  /*** Debug & Error Logging  ***/
-  /***                        ***/
   public function _setDebug($val) {
     $this->_debug = $val;
   }
+  /**
+   * Get any errors if they exists
+   *
+   * @return mixed  false for no errors, an array otherwise
+   */
   public function _getError() {
     return (empty($this->_error)? false: $this->_error);
   }
+  /**
+   * Dump curl errors along with additional error information.
+   *
+   * @param string $path  A request path for curl
+   * @param array $param  The parameters passed in the curl request
+   *
+   * @return object
+   */
   private function _dump($path, $param) {
       return (object) [
         "api" => $this->api,
@@ -53,26 +97,49 @@ class Api implements ApiInterface{
   }
 
 
-  /***                ***/
-  /*** API Call Logic ***/
-  /***                ***/
+  /**
+   * Public API Request Method 
+   * 
+   * @param string $method  HTTP Request Method
+   * @param string $path    HTTP Request Path
+   * @param array $param    HTTP Request Parameters
+   *
+   * @return object
+   */
   private function _publicRequest($method, $path, $param = '') {
     return $this->_call($method, $path, $param);
   }
+  /**
+   * Private API Request Method
+   * 
+   * @param string $method  HTTP Request Method
+   * @param string $path    HTTP Request Path
+   * @param array $param    HTTP Request Parameters
+   *
+   * @return object
+   */
   private function _privateRequest($method, $path, $param = '') {
     $headers = $this->auth->getAuthHeaders($path, $param, $method);
 
     return $this->_call($method, $path, $param, $headers);
   }
-  private function _call($method, $path, $param, $header = false) {
+  /**
+   * Make an HTTP Request
+   * 
+   * @param string $method  Request Method
+   * @param string $path    Request Path
+   * @param array $param    Request Parameters
+   * @param array $header   Additional Headers
+   *
+   * @return object
+   */
+  private function _call($method, $path, $param, $header = []) {
     $this->curl->reset();
     $this->curl->setHeader("Content-Type", "application/json");
 
     // Set additional headers.
-    if ($header) {
-      foreach ($header as $name => $value) {
-        $this->curl->setHeader($name, $value);
-      }
+    foreach ($header as $name => $value) {
+      $this->curl->setHeader($name, $value);
     }
 
     // Make an API request to the GDAX server.
@@ -128,6 +195,8 @@ class Api implements ApiInterface{
    * https://docs.gdax.com/#get-an-account
    * 
    * @api
+   *
+   * @param string $accountId The UUID for an account.
    *
    * @return object Account 
    */
@@ -190,8 +259,9 @@ class Api implements ApiInterface{
    * 
    * @api
    *
-   * @param LimitOrderModel|StopOrderModel|MarginOrderModel|MarketOrderModel
-   *    $param An order-model object for the type of order you want to create.
+   * @param CommonOrderItf $model An order model class for the type of
+   *  order you want to create.  The three valid classes are: LimitOrderModel,
+   *  MarketOrderModel, and StopOrderModel.
    *
    * @return object[] Orders on hold. 
    */
