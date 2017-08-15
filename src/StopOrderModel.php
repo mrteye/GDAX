@@ -7,8 +7,10 @@ class StopOrderModel extends CommonOrderItf {
    *  size:           [optional] desired amount in BTC
    *  funds:          [optional] desirec amount of quote currency to use
    */
+  protected $type = 'stop';
+
   public $price;
   public $size;
-  public $funds;
+  public $funds = "0";
 }
 

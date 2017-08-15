@@ -8,6 +8,8 @@ class LimitOrderModel extends CommonOrderItf {
    *  cancel_after:   [optional] min, hour, day
    *  post_only:      [optional] post only flag
    */
+  protected $type = 'limit';
+
   public $price;
   public $size;
   public $time_in_force;

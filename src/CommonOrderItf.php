@@ -10,10 +10,17 @@ abstract class CommonOrderItf extends Hydration {
    *  stp:            [optional]  self-trade prevention flag
    */
   public $client_oid;
-  public $type;
+  protected $type = 'limit';
   public $side;
   public $product_id;
-  public $stp;
+  public $stp = 'dc'; // dc, co, cn, cb
 
+  /**
+   *      Margin Parameters
+   *  overdraft_enabled: overdraft flag
+   *  funding_amount: amount of funding to be provided for the order
+   */
+  public $overdraft_enabled = false;
+  public $funding_amount = "";
 }
 

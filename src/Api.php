@@ -195,11 +195,7 @@ class Api implements ApiInterface{
    *
    * @return object[] Orders on hold. 
    */
-<<<<<<< HEAD
   public function createOrder(CommonOrderItf $model) {
-=======
-  public function createOrder($model) {
->>>>>>> 79bb9d2eeb13473cec6da1d0bfe6656895b398fa
     return $this->_privateRequest("POST", "orders", $model->extract());
   }
 
