@@ -1,19 +1,47 @@
 <?php
+/**
+ * Limit Order Model
+ */
 namespace mrteye\Gdax;
+
+/**
+ * The limit order type for createOrder().
+ */
 class LimitOrderModel extends CommonOrderItf {
   /**
-   *      Limit Order Parameters
-   *  size:           Amount of Bitcoin to buy or sell
-   *  time_in_force:  [optional] GTC, GTT, IOC, FOK; default is GTC
-   *  cancel_after:   [optional] min, hour, day
-   *  post_only:      [optional] post only flag
+   * exchange order type
+   * @var string
    */
   protected $type = 'limit';
 
+  /**
+   * price per coin
+   * @var string
+   */
   public $price;
+
+  /**
+   * amount of coin to buy and sell
+   * @var string
+   */
   public $size;
-  public $time_in_force;
+
+  /**
+   * GTC, GTT, IOC, FOK;
+   * @var string
+   */
+  public $time_in_force = "GTC";
+
+  /**
+   * min, hour, day
+   * @var string
+   */
   public $cancel_after;
+
+  /**
+   * post only flag
+   * @var string
+   */
   public $post_only;
 }
 
