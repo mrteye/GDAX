@@ -44,7 +44,7 @@ $gdax = new Gdax('https://api-public.sandbox.gdax.com');
 
 // Example usage of public calls.
 $products = $gdax->getProducts();
-$productOrderBook = $gdax->getProductOrderBook('BTC-USD', $param);
+$productOrderBook = $gdax->getProductOrderBook('BTC-USD', $param = [
     'level' => 1
 ]);
 $productTrades = $gdax->getProductTrades($productId, $param = [
