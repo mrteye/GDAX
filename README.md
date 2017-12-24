@@ -31,7 +31,7 @@ The following three examples show how to use the mrteye\GDAX api. From basic to
 Advanced usage examples: public acces, private access, and extending the API
 into your own class.
 
-Working examples are provided with index.php located in the test folder.
+Working examples are provided with index.php, located in the test folder.
 
 ### Example #1 Basic. Public access, no authentication required.
 ```php
