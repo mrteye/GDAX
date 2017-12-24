@@ -8,15 +8,18 @@ use Curl\Curl;
 */
 
 class Api implements ApiInterface{
+  /** Error Array. */
   protected $_error = [];
-  protected $_debug = false;
+  /** Provide detailed debug information when an error is detected. */
+  protected $_debug = true;
 
+  /** */
   function __construct($api, $auth = false) {
     if (! $api) {
-      throw new Exception(__METHOD__ ." Missing API URL");
+      throw new \Exception(__METHOD__ ." Missing API URL");
     }
 
-    $this->curl = new Curl();
+    $this->curl = new AppCurl();
     $this->auth = $auth;
     $this->api = $api;
   }
@@ -30,9 +33,18 @@ class Api implements ApiInterface{
   /***                        ***/
   /*** Debug & Error Logging  ***/
   /***                        ***/
-  protected function _setDebug($val) {
+
+  /** */
+  public function getError() {
+    return (empty($this->_error) ? []: $this->_error);
+  }
+
+  /** */
+  public function setDebug($val) {
     $this->_debug = $val;
   }
+
+  /** */
   private function _dump($path, $param) {
       return (object) [
         "api" => $this->api,
@@ -54,17 +66,23 @@ class Api implements ApiInterface{
   /***                ***/
   /*** API Call Logic ***/
   /***                ***/
+
+  /** Public API request: wraps _call. */
   private function _publicRequest($method, $path, $param = '') {
     return $this->_call($method, $path, $param);
   }
+
+  /** Private API request: wraps _call, requires auth. */
   private function _privateRequest($method, $path, $param = '') {
     $headers = $this->auth->getAuthHeaders($path, $param, $method);
 
     return $this->_call($method, $path, $param, $headers);
   }
+
+  /** Connection logic; send requests to the Gdax API. */
   private function _call($method, $path, $param, $header = false) {
-    $this->curl->reset();
-    $this->curl->setHeader("Content-Type", "application/json");
+    // Clear connection; Set timeout, and json header.
+    $this->curl->resetConnection();
 
     // Set additional headers.
     if ($header) {
@@ -96,7 +114,7 @@ class Api implements ApiInterface{
     }
 
     if (is_null($ret = json_decode($this->curl->response))) {
-      throw new Exception(__METHOD__ ." - Invalid JSON or null returned."); 
+      throw new \Exception(__METHOD__ ." - Invalid JSON or null returned."); 
     }
 
     return $ret;

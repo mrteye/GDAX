@@ -1,0 +1,10 @@
+<?php
+$config = (object) array(
+  'key' => '',
+  'secret' => '',
+  'pass' => '',
+
+  'api_url' => 'https://api-public.sandbox.gdax.com',
+  'time_url' => 'https://api-public.sandbox.gdax.com/time'
+);
+

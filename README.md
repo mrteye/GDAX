@@ -38,68 +38,87 @@ use mrteye\Gdax\Api as Api;
 use mrteye\Gdax\Auth as Auth;
 
 // Get the GDAX API and start making calls.
-$gdax = new Gdax('https://api-public.sandbox.gdax.com');
+$gdax = new Api('https://api-public.sandbox.gdax.com');
+$products = false;
+
+try {
+  // Example usage of public calls.
+  $products = $gdax->getProducts();
+  $productOrderBook = $gdax->getProductOrderBook('BTC-USD', $param = [
+      'level' => 1
+  ]);
+  $productTrades = $gdax->getProductTrades($productId, $param = [
+      'before' => 1,
+      'limit' => 100
+  ]);
+} catch (\Exception $e) {
+  echo $e->getMessage();
+  echo '<pre>'. print_r($gdax->getError(), true) .'</pre>';
+}
+
+if ($products) {
+  echo 'Products: <pre>'. print_r($products, true) .'</pre>';
+} else {
+  echo 'Something went wrong.';
+}
 
 
-
-// Example usage of public calls.
-$products = $gdax->getProducts();
-$productOrderBook = $gdax->getProductOrderBook('BTC-USD', $param = [
-    'level' => 1
-]);
-$productTrades = $gdax->getProductTrades($productId, $param = [
-    'before' => 1,
-    'limit' => 100
-]);
 ```
 
 ### Example #2 Basic. Private access, authentication is required. 
 ```php
+// A example config file is provided.
+include 'config.php';
+
 use mrteye\Gdax\Api as Api;
 use mrteye\Gdax\Auth as Auth;
 
-// Create authentication credentials on the GDAX site for Private API calls.
-$key = 'web';  
-$secret = 'web';
-$pass = 'web';
+// Authenticate per GDAX documentation; the time url is optional.
+$auth = new Auth(
+  $config->key,
+  $config->secret,
+  $config->pass,
+  $config->time_url
+);
 
-// Create a GDAX object; the GDAX time API is optional.
-$gdax_time_api = 'https://api-public.sandbox.gdax.com/time';
-$auth = new Auth($key, $secret, $pass, $gdax_time_api);
+// Get the API and start making calls.
+$gdax = new Api($config->api_url, $auth);
+$accounts = false;
 
-// Get the GDAX API and start making calls.
-$api_url = 'https://api-public.sandbox.gdax.com"';
-$gdax = new Gdax($api_url, $auth);
+try {
+  // Usage examples with some private calls.
+  $accounts = $gdax->getAccounts();
+  $account = $gdax->getAccount($accounts[0]->id);
+  $order = $gdax->createOrder([
+      // Common Order Parameters
+      'type' => 'limit',
+      'side' => 'buy',
+      'product_id' => 'BTC-USD',
+      // Limit Order Parameters
+      'price' => ".01",
+      'size' => ".01"
+  ]);
 
+  $orders = $gdax->getOrders($param = [
+      'status' => 'open',
+      'product_id' => '',
+      'before' => 0,
+      'after' => 1000,
+      'limit' => 100
+  ]);
+  $uuids = $gdax->cancelOrder($orders[0]->id);
 
-// Usage examples with some private calls.
-$accounts = $gdax->getAccounts();
+  $uuids = $gdax->cancelAllOrders($param = [
+      'product_id' => 'BTC-USD'
+  ]);
+} catch (\Exception $e) {
+  echo '<pre>gdax-private: '. print_r($gdax->getError(), true). '</pre>';
+}
 
-$account = $gdax->getAccount($accounts[0]->id);
+if ($accounts) {
+  echo 'Accounts: <pre>'. print_r($accounts, true) .'</pre>';
+}
 
-$order = $gdax->createOrder([
-    // Common Order Parameters
-    'type' => 'limit',
-    'side' => 'buy',
-    'product_id' => 'BTC-USD',
-    // Limit Order Parameters
-    'price' => ".01",
-    'size' => ".01"
-]);
-
-$orders = $gdax->getOrders($param = [
-    'status' => 'open',
-    'product_id' => '',
-    'before' => 0,
-    'after' => 1000,
-    'limit' => 100
-]);
-
-$uuids = $gdax->cancelOrder($orders[0]->id);
-
-$uuids = $gdax->cancelAllOrders($param = [
-    'product_id' => 'BTC-USD'
-]);
 ```
 
 
@@ -108,50 +127,61 @@ $uuids = $gdax->cancelAllOrders($param = [
 <?php
 use mrteye\Gdax\Api as Api;
 use mrteye\Gdax\Auth as Auth;
+use mrteye\Gdax\AppCurl;
 
-class AppGdaxApi extends Api {
-  function __construct($private = false) {
-
+class MyBot extends Api {
+  function __construct($private = false, $config) {
     // Create an authentication object if necessary.
     $auth = false;
     if ($private) {
       // TODO: Reminder; define values for key, secret, pass and gdax_time_api.
       // These values should be stored in an external file or other source.
       // - OR - you could simply hard code them here.
-      $auth = new Auth($key, $secret, $pass, $gdax_time_api);
+      $auth = new Auth(
+        $config->key,
+        $config->secret,
+        $config->pass,
+        $config->time_url
+      );
     }
 
     // Load the Gdax API.
-    parent::__construct($api_url, $auth);
+    parent::__construct($config->api_url, $auth);
+
+    // Set a different timeout for curl.
+    $this->curl = new AppCurl(2000);
   }
 
-  function setDebug($bool) {
-    $this->_setDebug($bool);
-  }
-
-  function getError() {
-    return (empty($this->_error) ? []: $this->_error);
-  }
-
-
+  // ~ Add custom methods application methods...
 }
 
 // Example usage of the AppGdaxApi class
-$gdax = new AppGdaxApi(true);
+$gdax = new MyBot(true, $config);
+$accounts = false;
 
-// Turn on detailed error logging.
-$gdax->setDebug(true);
+// Detail debugging is on by default.
+//$gdax->setDebug(true);
 
-// Get all accounts and products.
-$accounts = $gdax->getAccounts();
-$products = $gdax->getProducts();
+try {
+  // Get all accounts and products.
+  $accounts = $gdax->getAccounts();
+  $products = $gdax->getProducts();
+} catch (\Exception $e) {
+  echo $e->getMessage();
 
-// Get any errors if they exists.
-$errors = $gdax->getError();
+  // Get debug info.
+  $errors = $gdax->getError();
+}
+
+if ($accounts) {
+  echo 'Accounts: <pre>'. print_r($accounts, true) .'</pre>';
+}
+
+
 ```
 
 ## API Summary
-All $param properties are associate arrays with either API parameters
+All $param properties are associative arrays with either API parameters
 or pagination parameters or both.  The parameters for each method are documented 
 in the Api class file, the ApiInterface file, and on the internet at the provided url.
 

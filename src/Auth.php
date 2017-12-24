@@ -13,13 +13,13 @@ class Auth {
 
   public function setTime() {
     if ($this->gdaxTimeApi) {
-      $curl = new Curl(); 
+      $curl = new AppCurl(); 
       $curl->get($this->gdaxTimeApi);
+
       if ($curl->error) {
-        throw new Exception("getTime: $curl->error_message");
+        throw new \Exception("getTime: $curl->error_message");
       }
       $timeSet = json_decode($curl->response);
-
       $this->timestamp = $timeSet->epoch;
     } else {
       $this->timestamp = time();
