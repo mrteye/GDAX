@@ -67,7 +67,7 @@ if ($products) {
 
 ### Example #2 Basic. Private access, authentication is required. 
 ```php
-// A example config file is provided.
+// An example config file is provided.
 include 'config.php';
 
 use mrteye\Gdax\Api as Api;
