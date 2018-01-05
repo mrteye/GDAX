@@ -46,7 +46,7 @@ try {
   $products = $gdax->getProducts();
 } catch (\Exception $e) {
   $test[] = (object) array(
-    'name' => 'advanced', 
+    'name' => __FILE__, 
     'msg' => $e->getMessage(),
     'detail' => $gdax->getError()
   );

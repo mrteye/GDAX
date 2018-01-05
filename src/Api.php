@@ -1,15 +1,11 @@
 <?php
+/** */
 namespace mrteye\Gdax;
 use Curl\Curl;
 
-/**
-*
-*
-*/
-
+/** */
 class Api implements ApiInterface{
-  /** Error Array. */
-  protected $_error = [];
+  protected $_error = []; /** Error Array */
   /** Provide detailed debug information when an error is detected. */
   protected $_debug = true;
 
@@ -115,6 +111,11 @@ class Api implements ApiInterface{
 
     if (is_null($ret = json_decode($this->curl->response))) {
       throw new \Exception(__METHOD__ ." - Invalid JSON or null returned."); 
+    }
+
+    // Throw an exception on any returned messages from GDAX.
+    if ($ret && isset($ret->message)) {
+      throw new \Exception("API: $path-> ". $ret->message);
     }
 
     return $ret;

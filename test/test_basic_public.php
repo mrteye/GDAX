@@ -15,8 +15,9 @@ $products = false;
 
 // Example usage of public calls.
 try {
+  $productId = 'BTC-USD';
   $products = $gdax->getProducts();
-  $productOrderBook = $gdax->getProductOrderBook('BTC-USD', $param = [
+  $productOrderBook = $gdax->getProductOrderBook($productId, $param = [
       'level' => 1
   ]);
   $productTrades = $gdax->getProductTrades($productId, $param = [
@@ -25,7 +26,7 @@ try {
   ]);
 } catch (\Exception $e) {
   $test[] = (object) array(
-    'name' => 'basic public',
+    'name' => __FILE__,
     'msg' => $e->getMessage(),
     'detail' => $gdax->getError()
   );

@@ -1,11 +1,15 @@
 <?php
 // Set the base path; run composers autoload.
-$basePath = dirname(dirname(__FILE__));
-require_once "$basePath/vendor/autoload.php";
+if (! $docRoot = $_SERVER['DOCUMENT_ROOT']) {
+  // Repo clone - root path - no web server.
+  $docRoot = dirname(dirname(__FILE__));
+}
+require_once "$docRoot/vendor/autoload.php";
 
 // ~ Create credentials on the gdax site -> api section.
-// ~ copy config.php.example to config.php.
-require_once "$basePath/config.php";
+// ~ copy config.php.example to $docRoot/config.php.
+require_once "$docRoot/config.php";
+
 /***
 <?php
 // Example Config File
@@ -18,6 +22,7 @@ $config = array(
   'time_url' => 'https://api-public.sandbox.gdax.com/time'
 );
 ***/
+
 $time = time();
 $test = false;
 include 'test_basic_public.php';
@@ -32,12 +37,14 @@ echo "<pre>
 Time: ". date('i:s', $t2 - $time). "
 </pre>";
 
+// Display results of previous examples.
 if ($test) {
-
   foreach($test as $fail) {
-    echo '<pre>';
-    echo $fail->name .' - '. $fail->msg;
-    echo 'Errors: <pre>'. print_r($fail->detail, true) .'</pre>';
+    $path = basename($fail->name);
+    $file_link = "<a href=\"file://{$fail->name}\">$path</a>";
+
+    echo "$file_link | <b>{$fail->msg}</b> | Details<hr>";
+    echo '<pre>'. print_r($fail->detail, true) .'</pre>';
   }
 }
 

@@ -47,7 +47,7 @@ try {
   ]);
 } catch (\Exception $e) {
   $test[] = (object) array(
-    'name' => 'basic private',
+    'name' => __FILE__,
     'msg' => $e->getMessage(),
     'detail' => $gdax->getError()
   );

@@ -21,6 +21,11 @@ MIT - MIT License
 File: [LICENSE](LICENSE)
 
 ### Installation
+Copy the config.php.example file to config.php and place it in your document
+root.  Add credentials for private API calls.
+
+Public API calls will work without API credentials.  Get credentials from the gdax site: Login and goto the Api section.
+
 ###### Composer
 ```
 composer require mrteye/gdax
@@ -46,7 +51,8 @@ $products = false;
 try {
   // Example usage of public calls.
   $products = $gdax->getProducts();
-  $productOrderBook = $gdax->getProductOrderBook('BTC-USD', $param = [
+  $productId = 'BTC-USD';
+  $productOrderBook = $gdax->getProductOrderBook($productId, $param = [
       'level' => 1
   ]);
   $productTrades = $gdax->getProductTrades($productId, $param = [
