@@ -9,17 +9,19 @@ class Auth {
     $this->secret = $secret;
     $this->pass = $pass;
     $this->gdaxTimeApi = $timeApi;
+    $this->curl = new AppCurl(); 
   }
 
   public function setTime() {
     if ($this->gdaxTimeApi) {
-      $curl = new AppCurl(); 
-      $curl->get($this->gdaxTimeApi);
 
-      if ($curl->error) {
-        throw new \Exception("getTime: $curl->error_message");
+      $this->curl->get($this->gdaxTimeApi);
+
+      if ($this->curl->error) {
+        $error = $this->curl->error_message;
+        throw new \Exception("getTime: $error");
       }
-      $timeSet = json_decode($curl->response);
+      $timeSet = json_decode($this->curl->response);
       $this->timestamp = $timeSet->epoch;
     } else {
       $this->timestamp = time();
