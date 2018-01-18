@@ -13,6 +13,6 @@
         "curl/curl": ">=1.7.1"
     },
 		"autoload": {
-			"classmap": ["src"]
+			"classmap": ["src", "test/src"]
 		}
 }

@@ -1,12 +1,24 @@
 <?php
-// Example #3 Advanced. Extend the Api class. Create your own exchange logic.
-// This example is loaded from index.php file which sets an autoload and
-// creates $basePath and $config variables.
+/** This example (#3 Advanced) extends the Api class. Create your own 
+ * exchange logic.  
+ */
+use mrteye\Gdax\Api as Api;
+use mrteye\Gdax\Auth as Auth;
+use mrteye\Gdax\AppCurl as AppCurl;
+use mrteye\Gdax\Exception as Exception;
 
-use mrteye\Gdax\Api;
-use mrteye\Gdax\Auth;
-use mrteye\Gdax\AppCurl;
+use SomePHP\Test\Example as Example;
 
+
+// Setup; All tests should be one level below doc root.
+if (! $docRoot = $_SERVER['DOCUMENT_ROOT']) {
+  $docRoot = dirname(dirname(__FILE__));
+}
+require_once "$docRoot/vendor/autoload.php";
+require "$docRoot/config.php";
+
+
+// Some additional code used in this example.
 class MyBot extends Api {
   function __construct($private = false, $config) {
     // Create an authentication object if necessary.
@@ -33,25 +45,24 @@ class MyBot extends Api {
   // ~ Add custom methods application methods...
 }
 
-// Example usage of the AppGdaxApi class
-$gdax = new MyBot(true, $config);
-$accounts = false;
 
-// Detail debugging is on by default.
-//$gdax->setDebug(true);
+// Run the example code; Throw an exception for errors; Return any output;
+$example = new Example('An Exchange Bot (skeleton)', 
+  function() use ($config) {
 
-try {
+  // Example usage of the AppGdaxApi class
+  $gdax = new MyBot(true, $config);
+  $accounts = false;
+
   // Get all accounts and products.
   $accounts = $gdax->getAccounts();
   $products = $gdax->getProducts();
-} catch (\Exception $e) {
-  $test[] = (object) array(
-    'name' => __FILE__, 
-    'msg' => $e->getMessage(),
-    'detail' => $gdax->getError()
-  );
-}
 
-if ($accounts) {
-  echo 'Accounts: <pre>'. print_r($accounts, true) .'</pre>';
-}
+  $msg = print_r($accounts[0], true) . "\n";
+  $msg .= print_r($products[0], true) . "\n";
+  return $msg;
+});
+
+// Display results if this file was loaded directly.
+$example->show();
+
